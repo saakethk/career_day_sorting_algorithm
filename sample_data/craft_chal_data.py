@@ -165,8 +165,6 @@ def main():
 		studentList.append(s)
 
 	writeStudentFile("students.csv", studentList)
-	
-
 
 
 if __name__ == "__main__":

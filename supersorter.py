@@ -38,13 +38,13 @@ class Student:
     choices: List[int]
     assigned: List[CondensedSession] = field(default_factory=getDefaultAssigned)
     
-    def assignChoice(self, index: int, sessions: List[any], wasChosen: bool = True):
+    def assignChoice(self, index: int, sessions: dict, wasChosen: bool = True):
 
         if (wasChosen):
             assigned_choice = self.choices.pop(index)
-            chosen_session: Session = sessions[assigned_choice-1]
+            chosen_session: Session = sessions[assigned_choice]
         else:
-            chosen_session: Session = sessions[index-1]
+            chosen_session: Session = sessions[index]
 
         self.assigned.append(
             CondensedSession(
@@ -54,6 +54,8 @@ class Student:
                 presenter=chosen_session.presenter
             )
         )
+
+        debug(self.assigned)
 
     def getCSVRow(self):
         
@@ -70,9 +72,12 @@ class Student:
 
         for session in self.assigned:
             if session.id == session_id:
-                return True
+                debug("match")
+                debug(session_id)
+                debug(session.id)
+                return False
             
-        return False
+        return True
         
 
 @dataclass
@@ -114,7 +119,12 @@ def debug(statement: str):
 
 # Gets student data and converts to custom defined type
 def getStudentData(filename: str):
-    
+
+    # Sort function
+    def sortStudents(student: Student):
+        return student.timestamp
+        # return student.grade + ((student.timestamp / 1000000000) * 2)
+
     student_data: List[Student] = []
     
     with open(filename, mode="r") as file:
@@ -143,12 +153,12 @@ def getStudentData(filename: str):
                     )
                 )
             
-    return sorted(student_data, reverse=True)
+    return sorted(student_data, key=sortStudents, reverse=True)
 
 # Gets student data and converts to custom defined type
 def getSessionData(filename: str):
     
-    session_data: List[Session] = []
+    session_data: dict = {}
     
     with open(filename, mode="r") as file:
         reader = csv.reader(file)
@@ -169,19 +179,19 @@ def getSessionData(filename: str):
                 max_students = int(row[1])
                 next(reader) # Skips header
             else:
-                session_data.append(
-                    Session(
-                        id=int(row[0]),
-                        subject=row[1].replace("[", "").replace("]", ""),
-                        teacher=row[2].strip(),
-                        presenter=row[3].strip(),
-                        classes = getDefaultClasses(min_limit=min_students, max_limit=max_students)
-                    )
+                session_data[int(row[0])] = Session(
+                    id=int(row[0]),
+                    subject=row[1].replace("[", "").replace("]", ""),
+                    teacher=row[2].strip(),
+                    presenter=row[3].strip(),
+                    classes = getDefaultClasses(min_limit=min_students, max_limit=max_students)
                 )
             
-    return sorted(session_data, reverse=True)
+    return session_data
 
-def getSmallClasses(sessions: List[Session], class_index: int):
+def getSmallClasses(sessions: dict, class_index: int):
+
+    sessions: List[Session] = sessions.values()  
 
     def getSortKey(e: Session):
         return len(e.classes[class_index].students)
@@ -205,13 +215,13 @@ def assignStudents(students: List[Student], sessions: List[Session]):
                 if (choice_index < len(student.choices)):
 
                     # Gets session
-                    session_chosen: Session = sessions[student.choices[choice_index]-1]
+                    session_chosen: Session = sessions[student.choices[choice_index]]
 
                     # Gets class
                     class_chosen: Class = session_chosen.classes[class_index]
 
                     # Checks if there is room in smallest class and that they havent already taken class
-                    if (not student.checkChosen(session_chosen.id)) and (len(class_chosen.students) < class_chosen.max_limit):
+                    if student.checkChosen(session_chosen.id) and (len(class_chosen.students) < class_chosen.max_limit):
                         # Gives student class
                         class_assigned = True
                         class_chosen.addStudent(student=student)
@@ -229,7 +239,7 @@ def assignStudents(students: List[Student], sessions: List[Session]):
                     class_chosen: Class = session_chosen.classes[class_index]
 
                     # Checks if there is room in smallest class and that they havent already taken class
-                    if (not student.checkChosen(session_chosen.id)) and (len(class_chosen.students) < class_chosen.max_limit):
+                    if student.checkChosen(session_chosen.id) and (len(class_chosen.students) < class_chosen.max_limit):
                         # Gives student class
                         class_assigned = True
                         class_chosen.addStudent(student=student)
@@ -259,7 +269,7 @@ def writeStudentSelectionFile(filename, students: List[Student]):
 
 	f.close();debug(f"Average score: {average_score/len(students)}")
 
-def writeSessionSelectionFile(filename, sessions: List[Session]):
+def writeSessionSelectionFile(filename, sessions: dict):
 
     # Opens filename for writing
 	f = open(filename, "w")
@@ -268,9 +278,9 @@ def writeSessionSelectionFile(filename, sessions: List[Session]):
 	f.write(f"NUM_SESSIONS, {len(sessions)}\n")
 	f.write("SESSION_ID, SUBJECT, TEACHER, CLA1_NUM_STUDENTS, CLA1_REQ, CLA2_NUM_STUDENTS, CLA2_REQ, CLA3_NUM_STUDENTS, CLA3_REQ, CLA4_NUM_STUDENTS, CLA4_REQ\n")
 
-	for session in sessions:
+	for index in range(1, len(sessions.values())+1):
         # Writes row
-		f.write(session.getCSVRow())
+		f.write(sessions[index].getCSVRow())
 
 	f.close()
 
