@@ -7,6 +7,7 @@ from typing import List
 
 NUM_ASSIGNED_CLASSES = 4 # Number of classes to assign to each student
 NUM_CHOICES = 7 # Number of choices for student
+SPECIAL_SESSIONS = [44, 45, 46]
 
 # CUSTOM TYPES (Source: https://www.datacamp.com/tutorial/python-data-classes)
 
@@ -38,6 +39,7 @@ class Student:
     choices: List[int]
     assigned: List[CondensedSession] = field(default_factory=getDefaultAssigned)
     
+    # Assigns student choice they chose
     def assignChoice(self, index: int, sessions: dict, wasChosen: bool = True):
 
         if (wasChosen):
@@ -57,6 +59,7 @@ class Student:
 
         debug(self.assigned)
 
+    # Gets csv formatted row
     def getCSVRow(self):
         
         row = f"{self.first_name}, {self.last_name}, {self.homeroom}, {self.first_period}, {self.id}, {self.grade}"
@@ -68,6 +71,7 @@ class Student:
 
         return row
     
+    # Checks whether the student has already chosen a session
     def checkChosen(self, session_id: int):
 
         for session in self.assigned:
@@ -86,8 +90,16 @@ class Class:
     max_limit: int
     students: List[Student] = field(default_factory=getDefaultStudents)
 
+    # Adds a student to class
     def addStudent(self, student: Student):
         self.students.append(student)
+
+    # Check how many students are still needed in class
+    def needsStudents(self):
+        if (len(self.students) < self.min_limit):
+            return self.min_limit - len(self.students)
+        else:
+            return 0
 
 @dataclass(order=True)
 class Session:
@@ -97,6 +109,18 @@ class Session:
     presenter: str
     classes: List[Class]
 
+    # Checks whether student meets requirement for special session
+    def checkStudent(self, student: Student):
+
+        if (self.id in SPECIAL_SESSIONS) and (student.grade >= 9):
+            return True
+        elif (self.id in SPECIAL_SESSIONS) and (student.grade <= 9):
+            return False
+        else:
+            return True
+
+
+    # Gets csv formatted row
     def getCSVRow(self):
         
         row = f"{self.id}, {self.subject}, {self.teacher}"
@@ -114,16 +138,16 @@ class Session:
 
 # Debug function for logging
 def debug(statement: str):
-    if True:
+    if False:
         print(statement)
 
 # Gets student data and converts to custom defined type
 def getStudentData(filename: str):
 
     # Sort function
-    def sortStudents(student: Student):
-        return student.timestamp
-        # return student.grade + ((student.timestamp / 1000000000) * 2)
+    # def sortStudents(student: Student):
+    #     return student.timestamp
+    #     # return student.grade + ((student.timestamp / 1000000000) * 2)
 
     student_data: List[Student] = []
     
@@ -149,11 +173,11 @@ def getStudentData(filename: str):
                         first_period=row[4].strip(),
                         id=int(row[5]),
                         grade=int(row[6]),
-                        choices=[int(choice) for choice in [row[7], row[8], row[9], row[10], row[11], row[12], row[13]]]
+                        choices=[int(row[choice]) for choice in range(7, len(row))]
                     )
                 )
             
-    return sorted(student_data, key=sortStudents, reverse=True)
+    return sorted(student_data, reverse=True)
 
 # Gets student data and converts to custom defined type
 def getSessionData(filename: str):
@@ -189,6 +213,7 @@ def getSessionData(filename: str):
             
     return session_data
 
+# Gets sorted list of sessions based on class size
 def getSmallClasses(sessions: dict, class_index: int):
 
     sessions: List[Session] = sessions.values()  
@@ -198,10 +223,55 @@ def getSmallClasses(sessions: dict, class_index: int):
 
     return sorted(sessions, key=getSortKey)
 
-def assignStudents(students: List[Student], sessions: List[Session]):
+def getSpecialSessionStudentsRemaining(sessions: List[Session], class_index: int):
+
+    students_needed: int = 0
+
+    for session in sessions:
+        if session.id in SPECIAL_SESSIONS:
+            chosen_class = session.classes[class_index]
+            students_needed += chosen_class.needsStudents()
+
+    return students_needed
+
+# Decides whether small classes need to be prioritized
+def prioritizeSmallClasses(sessions: dict, class_index: int, students_remaining: int, active: bool, acccount_for_special_sessions: bool):
+
+    if (active):
+        students_needed: int = 0
+        special_sessions_students_needed: int = 0
+        sessions: List[Session] = getSmallClasses(sessions, class_index)
+
+        for session in sessions:
+            chosen_class = session.classes[class_index]
+            if acccount_for_special_sessions:
+                if (session.id not in SPECIAL_SESSIONS):
+                    students_needed += chosen_class.needsStudents()
+                else:
+                    special_sessions_students_needed += chosen_class.needsStudents()
+            else:
+                students_needed += chosen_class.needsStudents()
+
+        if acccount_for_special_sessions:
+            if (students_remaining <= students_needed) or (getSpecialSessionStudentsRemaining(sessions, class_index) <= special_sessions_students_needed):
+                return True
+            else:
+                return False
+        else:
+            if (students_remaining <= students_needed):
+                return True
+            else:
+                return False
+    else:
+        return False
+
+# Assigns students to classes
+def assignStudents(students: List[Student], sessions: List[Session], prioritize_small_classes: bool, account_for_special_sessions: bool):
 
     # Goes through the numebr of classes that need to be assigned
     for class_index in range(NUM_ASSIGNED_CLASSES):
+
+        students_remaining = len(students)
 
         # Goes through all the students
         for student in students:
@@ -212,7 +282,7 @@ def assignStudents(students: List[Student], sessions: List[Session]):
             while not class_assigned:
                 
                 # Checks if they have enough choices left to pick from
-                if (choice_index < len(student.choices)):
+                if (choice_index < len(student.choices)) and (not prioritizeSmallClasses(sessions, class_index, students_remaining, prioritize_small_classes, account_for_special_sessions)):
 
                     # Gets session
                     session_chosen: Session = sessions[student.choices[choice_index]]
@@ -220,13 +290,14 @@ def assignStudents(students: List[Student], sessions: List[Session]):
                     # Gets class
                     class_chosen: Class = session_chosen.classes[class_index]
 
-                    # Checks if there is room in smallest class and that they havent already taken class
-                    if student.checkChosen(session_chosen.id) and (len(class_chosen.students) < class_chosen.max_limit):
+                    # Checks if they have already chose class and if class has room
+                    if student.checkChosen(session_chosen.id) and session_chosen.checkStudent(student) and(len(class_chosen.students) < class_chosen.max_limit):
                         # Gives student class
                         class_assigned = True
                         class_chosen.addStudent(student=student)
                         student.assignChoice(index=choice_index, sessions=sessions)
-                        debug(f"Student (Id: {student.id}) was assigned choice #{choice_index} for class #{class_index}.")
+                        students_remaining -= 1
+                        debug(f"CHOICE - Student (Id: {student.id}) was assigned choice #{choice_index} for class #{class_index}.")
                     else:
                         # Attempts to give them one of other choices
                         choice_index += 1
@@ -239,12 +310,13 @@ def assignStudents(students: List[Student], sessions: List[Session]):
                     class_chosen: Class = session_chosen.classes[class_index]
 
                     # Checks if there is room in smallest class and that they havent already taken class
-                    if student.checkChosen(session_chosen.id) and (len(class_chosen.students) < class_chosen.max_limit):
+                    if student.checkChosen(session_chosen.id) and session_chosen.checkStudent(student) and (len(class_chosen.students) < class_chosen.max_limit):
                         # Gives student class
                         class_assigned = True
                         class_chosen.addStudent(student=student)
                         student.assignChoice(index=session_chosen.id, sessions=sessions, wasChosen=False)
-                        debug(f"Student (Id: {student.id}) was assigned choice #{choice_index} for class #{class_index}.")
+                        students_remaining -= 1
+                        debug(f"SMALL - Student (Id: {student.id}) was assigned choice #{choice_index} for class #{class_index}.")
                     else:
                         # Lets user know all classes have been filled if the smallest class is full
                         choice_index += 1
@@ -252,6 +324,7 @@ def assignStudents(students: List[Student], sessions: List[Session]):
 
     return students
 
+# Writes the student selection file
 def writeStudentSelectionFile(filename, students: List[Student]):
 
     # Opens filename for writing
@@ -269,6 +342,7 @@ def writeStudentSelectionFile(filename, students: List[Student]):
 
 	f.close();debug(f"Average score: {average_score/len(students)}")
 
+# Writes the student session selection file
 def writeSessionSelectionFile(filename, sessions: dict):
 
     # Opens filename for writing
@@ -284,10 +358,17 @@ def writeSessionSelectionFile(filename, sessions: dict):
 
 	f.close()
 
-sessions = getSessionData(filename="sample_data/sessions.csv")
-students = getStudentData(filename="sample_data/students.csv")
-students = assignStudents(students=students, sessions=sessions)
+# Sample Data
+# sessions = getSessionData(filename="sample_data/sessions.csv")
+# students = getStudentData(filename="sample_data/students.csv")
+
+# Real Data
+sessions = getSessionData(filename="real_data/sessions.csv")
+students = getStudentData(filename="real_data/students.csv")
+
+students = assignStudents(students=students, sessions=sessions, prioritize_small_classes=False, account_for_special_sessions=False)
 writeStudentSelectionFile(filename="output/schedule.csv", students=students)
 writeSessionSelectionFile(filename="output/updated_sessions.csv", sessions=sessions)
+print("Done")
                 
 

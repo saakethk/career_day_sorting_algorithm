@@ -1,43 +1,48 @@
-NUM_SESSIONS, 41
+NUM_SESSIONS, 46
 SESSION_ID, SUBJECT, TEACHER, CLA1_NUM_STUDENTS, CLA1_REQ, CLA2_NUM_STUDENTS, CLA2_REQ, CLA3_NUM_STUDENTS, CLA3_REQ, CLA4_NUM_STUDENTS, CLA4_REQ
-1,  Women in Electrical Engineering, Marlowe B, 20, True, 20, True, 20, True, 20, True
-2,  Why You need a resume, Greystone M, 20, True, 20, True, 20, True, 20, True
-3,  The Role of Local Government in Everyday Living, Kingsley O, 20, True, 20, True, 20, True, 20, True
-4,  Architecture - designing buildings big & small, Eversley A, 20, True, 20, True, 20, True, 20, True
-5,  Career & Educational opportunities in the Air Force, Tennyson C, 20, True, 20, True, 20, True, 20, True
-6,  Career Paths for the Orthodontist, Fitzwilliam J, 20, True, 20, True, 20, True, 20, True
-7,  Personalities & Career Explorations, Ashford S, 20, True, 20, True, 20, True, 20, True
-8,  Finanical Literacy for Students, Yardley A, 20, True, 20, True, 20, True, 20, True
-9,  Nursing-the Most Versatile and Rewarding Career, Quincy B, 20, True, 20, True, 20, True, 20, True
-10,  Treating Cancer with Radiation, Greystone O, 20, True, 20, True, 20, True, 20, True
-11,  Why Everyone Needs A Good Lawyer and How to Become One, Wainwright J, 20, True, 20, True, 19, True, 19, True
-12,  Career in the Legal Profession, Fitzwilliam E, 20, True, 20, True, 20, True, 20, True
-13,  Planes Trains and Automobiles - Mechanical Engineering in many sectors, Radcliffe L, 20, True, 19, True, 20, True, 18, True
-14,  Follow the Money to Stop the Crime, Beaumont S, 20, True, 20, True, 20, True, 16, True
-15,  Space Based Intelligence Software, Haverford G, 20, True, 20, True, 20, True, 20, True
-16,  Career in Government, Ormsby M, 20, True, 20, True, 17, True, 16, True
-17,  Careers in Chemistry at Kennedy Space Center, Ingram O, 20, True, 20, True, 20, True, 20, True
-18,  Pathways to Success in the Pharmaceutical Industry, Kingsley H, 20, True, 20, True, 20, True, 20, True
-19,  A Career in Construction Management and Project Scheduling, Montgomery C, 20, True, 20, True, 18, True, 20, True
-20,  Becoming a Sheriff, Fairfax R, 20, True, 20, True, 20, True, 20, True
-21,  School Board Member/SLP, Fairfax O, 11, True, 9, True, 10, True, 10, True
-22,  Exploring IT Careers, Ellsworth G, 9, True, 9, True, 10, True, 12, True
-23,  Engineering: a career with many changes, Ravenscroft A, 9, True, 9, True, 10, True, 10, True
-24,  Science behind Police Response to Traffic Crashes, Blackwood I, 10, True, 10, True, 10, True, 10, True
-25,  (CANCELLED) A career in educational administration, Ravenscroft S, 10, True, 12, True, 10, True, 10, True
-26,  Electrical Engineering, Whitmore C, 13, True, 9, True, 9, True, 10, True
-27,  Careers in Wildlife-Natural Resources and Citizen Protection, Underwood M, 9, True, 9, True, 11, True, 10, True
-28,  What it is like to work with animals at the Brevard Zoo., Ainsworth G, 9, True, 9, True, 10, True, 10, True
-29,  Crime Scene Investigation, Montgomery C, 9, True, 10, True, 9, True, 10, True
-30,  The Entertainment Business, Sinclair J, 9, True, 9, True, 10, True, 10, True
-31,  Being a Pilot, Galloway J, 8, True, 10, True, 9, True, 10, True
-32,  Careers in Cybersecurity, Ravenscroft S, 11, True, 14, True, 9, True, 10, True
-33,  Firefighter/Paramedic Career and or venue owner, Langley G, 8, True, 9, True, 10, True, 10, True
-34,  Practicing Now to Be an Author Later, Rutherford E, 8, True, 9, True, 9, True, 9, True
-35,  Being a Chiropractor, Vance J, 9, True, 8, True, 10, True, 10, True
-36,  A career in medicine, Kingsley D, 12, True, 9, True, 10, True, 11, True
-37,  Not Just a nurse, Davenport W, 8, True, 9, True, 9, True, 11, True
-38,  Sparking Innovation & Making an Impact, Marlowe S, 8, True, 10, True, 9, True, 10, True
-39,  Becoming a Melbourne Police Officer, Abernathy S, 11, True, 8, True, 9, True, 9, True
-40,  Architecture – design of buildings and places and the teams that make it happen, Montgomery O, 11, True, 10, True, 9, True, 9, True
-41,  Cybersecurity and hacking, Whitmore H, 8, True, 10, True, 14, True, 10, True
+1,  ARCHITECTURE – DESIGN OF BUILDINGS AND PLACES AND THE TEAMS THAT MAKE IT HAPPEN, TeacherSession1, 25, True, 25, True, 25, True, 25, True
+2,  INTERIOR DESIGN FOR THEMED ENTERTAINMENT AND HOSPITALITY PROJECTS, TeacherSession2, 25, True, 25, True, 18, True, 19, True
+3,  ACCOUNTING IS NOT ALL ABOUT MATH AND TAXES!, TeacherSession3, 14, True, 14, True, 13, True, 13, True
+4,  FROM FICTION TO MARKETING TO GHOSTWRITING: WRITING AS A CAREER., TeacherSession4, 15, True, 14, True, 14, True, 14, True
+5,  SOFTWARE AND CEOING FOR FUN PROFIT AND HARD WORKOW 5, TeacherSession5, 14, True, 18, True, 25, True, 13, True
+6,  SPACE DOMAIN AWARENESS: WHAT WE DON'T KNOW COULD HURT US., TeacherSession6, 14, True, 14, True, 13, True, 13, True
+7,  CAREERS IN INFORMATION TECHNOLOGY, TeacherSession7, 14, True, 14, True, 13, True, 13, True
+8,  SYSTEMS ENGINEERING FOR AIRCRAFT CONTRACTORS, TeacherSession8, 14, True, 16, True, 14, True, 17, True
+9,  DEEP DIVE ON STRUCTURAL STRESS ANALYSIS IN AEROSPACE ENGINEERING, TeacherSession9, 18, True, 17, True, 13, True, 13, True
+10,  ENGINEERING THE SKIES: MISSION AND SYSTEMS ENGINEERING IN AEROSPACE AND DEFENSE, TeacherSession10, 25, True, 25, True, 25, True, 14, True
+11,  SYSTEMS INTEGRATION & TEST ENGINEERING, TeacherSession11, 14, True, 14, True, 14, True, 15, True
+12,  SIMILARITIES BETWEEN VIDEO GAME SPEED RUNNING AND CYBER SECURITY RESEARCH CAREERS, TeacherSession12, 25, True, 16, True, 13, True, 14, True
+13,  BEING A SOFTWARE ENGINEER, TeacherSession13, 18, True, 25, True, 20, True, 19, True
+14,  HOW TO CREATE & EXECUTE A PASSION-FUELED CAREER JOURNEY, TeacherSession14, 14, True, 14, True, 13, True, 13, True
+15,  HOW TO INTERVIEW TO LAND A JOB, TeacherSession15, 14, True, 16, True, 19, True, 25, True
+16,  FINANCIAL LITERACY AND BANKING, TeacherSession16, 14, True, 14, True, 13, True, 13, True
+17,  SAVE A LIFE WITH CPR, TeacherSession17, 14, True, 14, True, 16, True, 25, True
+18,  PRIVATE PRACTICE ATTORNEY: CORPORATE / CIVIL LITIGATION / INTELLECTUAL PROPERTY, TeacherSession18, 18, True, 14, True, 13, True, 16, True
+19,  CRIME SCENE INVESTIGATIONS, TeacherSession19, 25, True, 25, True, 25, True, 25, True
+20,  CONSERVATION LAW ENFORCEMENT, TeacherSession20, 14, True, 14, True, 13, True, 13, True
+21,  BECOMING A POLICE OFFICER, TeacherSession21, 13, True, 14, True, 13, True, 13, True
+22,  TRAFFIC HOMICIDE INVESTIGATIONS, TeacherSession22, 13, True, 20, True, 25, True, 25, True
+23,  FIREFIGHTER PARAMEDIC, TeacherSession23, 13, True, 13, True, 13, True, 13, True
+24,  UPHOLDING JUSTICE AS A SHERIFF'S DEPUTY, TeacherSession24, 13, True, 13, True, 13, True, 13, True
+25,  CAREER DEVELOPMENT: RECRUITING AND BACKGROUND INVESTIGATOR FOR THE SHERIFF'S OFFICE, TeacherSession25, 13, True, 13, True, 13, True, 13, True
+26,  INTERNATIONAL DEVELOPMENT: LEARN HOW TO MAKE A WORLD OF DIFFERENCE!, TeacherSession26, 13, True, 13, True, 13, True, 13, True
+27,  CAREER OPTIONS IN LOCAL AND NATIONAL GOVERNMENT, TeacherSession27, 13, True, 13, True, 13, True, 13, True
+28,  OPERATING ROOM NURSING, TeacherSession28, 14, True, 14, True, 16, True, 15, True
+29,  A PHYSICIAN WHO DEALS WITH DEATH, TeacherSession29, 13, True, 16, True, 13, True, 13, True
+30,  FROM REGISTERED NURSE TO VP OF OPERATIONS, TeacherSession30, 13, True, 13, True, 12, False, 13, True
+31,  THE INS AND OUTS OF BEING A CHIROPRACTOR, TeacherSession31, 13, True, 13, True, 12, False, 13, True
+32,  CAREER OPPORTUNITIES IN THE PHARMACEUTICAL INDUSTRY, TeacherSession32, 13, True, 13, True, 12, False, 13, True
+33,  6 CAREER PATHS FOR ORTHODONTISTS, TeacherSession33, 13, True, 13, True, 12, False, 13, True
+34,  PHYSICAL THERAPY, TeacherSession34, 18, True, 13, True, 13, True, 13, True
+35,  PSYCHIATRIC NURSING, TeacherSession35, 13, True, 13, True, 12, False, 13, True
+36,  CULTURE AND EXPERIENCE, TeacherSession36, 13, True, 13, True, 12, False, 12, False
+37,  THE PATH TO MEDICAL SCHOOL AND BEYOND, TeacherSession37, 25, True, 25, True, 25, True, 15, True
+38,  MILITARY PATHWAYS TO HIGHER EDUCATION, TeacherSession38, 13, True, 13, True, 12, False, 12, False
+39,  GENERAL ENGINEERING AND LAUNCH CONDUCTING FOR TRIDENT SUBMARINE FLIGHT TESTS, TeacherSession39, 13, True, 13, True, 12, False, 12, False
+40,  COLLEGE SCHOLARSHIP OPPORTUNITIES AVAILABLE THROUGH THE US AIR FORCE, TeacherSession40, 13, True, 13, True, 12, False, 12, False
+41,  WORKING AS A CHEMIST, TeacherSession41, 16, True, 13, True, 17, True, 12, False
+42,  WHAT DO ZOOS DO? CAREERS AT BREVARD ZOO, TeacherSession42, 16, True, 13, True, 13, True, 18, True
+43,  MARINE BIOLOGY: THE INDIAN RIVER LAGOON AND WORKING IN GOVERNMENT, TeacherSession43, 14, True, 19, True, 19, True, 14, True
+44,  YOUR CAREER AS A LICENSED BEAUTY PROFESSIONAL, TeacherSession44, 8, False, 9, False, 12, False, 17, True
+45,  LIFE AFTER HIGH SCHOOL, TeacherSession45, 7, False, 4, False, 14, True, 22, True
+46,  HEALTHCARE ADMINISTRATIVE/DIRECT PATIENT CARE INTERNSHIPS, TeacherSession46, 13, True, 10, False, 15, True, 13, True
